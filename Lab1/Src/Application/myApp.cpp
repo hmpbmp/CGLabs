@@ -181,7 +181,7 @@ void myApp::renderInternal()
     { cartesian(0, 0, 0), 0xFFFF0000 },
     { cartesian(axisLength, 0, 0), 0xFFFF0000 },
     { cartesian(0, 0, 0), 0xFFFF0000 },
-    { cartesian(0, axisLength, 0), 0xFFFF0000 },
+    { cartesian(0, axisLength, 0), 0xFFFFFF00 },
     { cartesian(0, 0, 0), 0xFFFF0000 },
     { cartesian(0, 0, axisLength), 0xFFFF0000 },
   };

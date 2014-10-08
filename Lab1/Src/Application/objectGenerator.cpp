@@ -124,25 +124,54 @@ void objectGenerator::rotateCamera(float dx, float dy)
     D3DXMATRIX Rz;
     D3DXMatrixRotationAxis(&Rz,Trans.upVector(),dx);
     //Updating lookat and up vectors and position of camera
-    D3DXVec3TransformCoord(Trans.lookatVector(), Trans.lookatVector(), &Rz);
-    D3DXVec3Normalize(Trans.lookatVector(), Trans.lookatVector());
+
+    D3DXVec3TransformCoord(Trans.dirVector(), Trans.dirVector(), &Rz);
+//    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
+
     D3DXVec3TransformCoord(Trans.upVector(), Trans.upVector(), &Rz);
-    D3DXVec3Normalize(Trans.upVector(), Trans.upVector());
-    D3DXVec3TransformCoord(Trans.cameraPos(), Trans.cameraPos(), &Rz);
+//    D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
+
+    D3DXVECTOR3 diff = *Trans.lookatVector() - *Trans.cameraPos();
+    float norm = D3DXVec3Length(&diff);
+    *Trans.cameraPos() = *Trans.lookatVector() - *Trans.dirVector() * norm;
+
+    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
+    D3DXVec3Cross(Trans.rightVector(), Trans.dirVector(), Trans.upVector());
+    D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
+    D3DXVec3Cross(Trans.upVector(), Trans.rightVector(), Trans.dirVector());
+
+
+//    diff = *Trans.lookatVector() - *Trans.cameraPos();
+//    norm = D3DXVec3Length(&diff);
+//    *Trans.lookatVector() = *Trans.dirVector()  * norm + *Trans.cameraPos();
   }
   if (fabs(dy) > 0.001)
   {
-    //Rotating around vector ort to lookat and up
+    //Rotating around right vector
     //Creating transform matrix
     D3DXMATRIX Rz;
-    D3DXVECTOR3 ax(1.0f, 1.0f, 0.0f);
+    D3DXMatrixRotationAxis(&Rz, Trans.rightVector(), -dy);
     //Updating lookat and up vectors and position of camera
-    D3DXMatrixRotationAxis(&Rz, D3DXVec3Cross(&ax,Trans.cameraPos(),Trans.upVector()), dy);
-    D3DXVec3TransformCoord(Trans.lookatVector(), Trans.lookatVector(), &Rz);
-    D3DXVec3Normalize(Trans.lookatVector(), Trans.lookatVector());
-    D3DXVec3TransformCoord(Trans.upVector(), Trans.upVector(), &Rz);
-    D3DXVec3Normalize(Trans.upVector(), Trans.upVector());
-    D3DXVec3TransformCoord(Trans.cameraPos(), Trans.cameraPos(), &Rz);
+
+    D3DXVec3TransformCoord(Trans.dirVector(), Trans.dirVector(), &Rz);
+//    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
+
+    D3DXVec3TransformCoord(Trans.rightVector(), Trans.rightVector(), &Rz);
+//    D3DXVec3Normalize(Trans.upVector(), Trans.upVector());
+
+    D3DXVECTOR3 diff = *Trans.lookatVector() - *Trans.cameraPos();
+    float norm = D3DXVec3Length(&diff);
+    *Trans.cameraPos() = *Trans.lookatVector() - *Trans.dirVector() * norm;
+  
+    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
+    D3DXVec3Cross(Trans.rightVector(), Trans.dirVector(), Trans.upVector());
+    D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
+    D3DXVec3Cross(Trans.upVector(), Trans.rightVector(), Trans.dirVector());
+
+
+//    diff = *Trans.lookatVector() - *Trans.cameraPos();
+//    norm = D3DXVec3Length(&diff);
+//    *Trans.lookatVector() = *Trans.dirVector()  * norm + *Trans.cameraPos();
   }
 }
 

@@ -38,7 +38,7 @@ public:
   void setCameraPosition(D3DXVECTOR3 pos) { cPosition = pos; }
 
   //Set camera lookat and up vectors
-  void setCameraVectors(D3DXVECTOR3 l, D3DXVECTOR3 u) { lookat = l; up = u; }
+  void setCameraVectors(D3DXVECTOR3 l, D3DXVECTOR3 u);
 
   //Sets projection matrix using two angles and  two borders
   void setProjection(float Ax, float Ay, float zN, float zF) { xAngle = Ax; yAngle = Ay; clBorder = zN; farBorder = zF; }
@@ -53,11 +53,13 @@ public:
   D3DXVECTOR3 * lookatVector() {return &lookat;}
   D3DXVECTOR3 * upVector() { return &up; }
   D3DXVECTOR3 * cameraPos() { return &cPosition; }
+  D3DXVECTOR3 *dirVector() { return &dir; }
+  D3DXVECTOR3 *rightVector(){ return &right; }
 private:
   //camera position
   D3DXVECTOR3 cPosition;
   //camera vectors
-  D3DXVECTOR3 lookat, up;
+  D3DXVECTOR3 lookat, up,dir,right;
   //projections parameters
   float xAngle, yAngle, clBorder, farBorder;
   //world matrix

@@ -38,13 +38,27 @@ D3DXMATRIX* Transformations::viewMatrix()
                                  cPosition.x, cPosition.y, cPosition.z, 1.0f);
   D3DXMATRIX* N = new D3DXMATRIX();
   D3DXMatrixInverse(N, NULL, M);*/
-  D3DXMatrixLookAtLH(View,&cPosition,&lookat,&up);
+  D3DXMatrixLookAtRH(View,&cPosition,&dir,&up);
   return View;
 }
 
 //Gets current projection matrix
 D3DXMATRIX* Transformations::projectionMatrix()
 {
-  D3DXMatrixPerspectiveFovLH(Proj, yAngle, tan(xAngle / 2.0f) / tan(yAngle / 2.0f), clBorder, farBorder);
+  D3DXMatrixPerspectiveFovRH(Proj, yAngle, tan(xAngle / 2.0f) / tan(yAngle / 2.0f), clBorder, farBorder);
   return Proj;
+}
+
+void Transformations::setCameraVectors(D3DXVECTOR3 l, D3DXVECTOR3 u) 
+{
+  lookat = l;
+  up = u;
+  dir = lookat - cPosition;
+  D3DXVec3Normalize(&dir,&dir);
+
+  D3DXVec3Cross(&right, &dir, &up);
+  D3DXVec3Cross(&up, &right, &dir);
+
+  D3DXVec3Normalize(&right, &right);
+  D3DXVec3Normalize(&up, &up);
 }
