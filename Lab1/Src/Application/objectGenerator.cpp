@@ -126,10 +126,8 @@ void objectGenerator::rotateCamera(float dx, float dy)
     //Updating lookat and up vectors and position of camera
 
     D3DXVec3TransformCoord(Trans.dirVector(), Trans.dirVector(), &Rz);
-//    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
 
     D3DXVec3TransformCoord(Trans.upVector(), Trans.upVector(), &Rz);
-//    D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
 
     D3DXVECTOR3 diff = *Trans.lookatVector() - *Trans.cameraPos();
     float norm = D3DXVec3Length(&diff);
@@ -140,10 +138,6 @@ void objectGenerator::rotateCamera(float dx, float dy)
     D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
     D3DXVec3Cross(Trans.upVector(), Trans.rightVector(), Trans.dirVector());
 
-
-//    diff = *Trans.lookatVector() - *Trans.cameraPos();
-//    norm = D3DXVec3Length(&diff);
-//    *Trans.lookatVector() = *Trans.dirVector()  * norm + *Trans.cameraPos();
   }
   if (fabs(dy) > 0.001)
   {
@@ -154,11 +148,9 @@ void objectGenerator::rotateCamera(float dx, float dy)
     //Updating lookat and up vectors and position of camera
 
     D3DXVec3TransformCoord(Trans.dirVector(), Trans.dirVector(), &Rz);
-//    D3DXVec3Normalize(Trans.dirVector(), Trans.dirVector());
 
     D3DXVec3TransformCoord(Trans.rightVector(), Trans.rightVector(), &Rz);
-//    D3DXVec3Normalize(Trans.upVector(), Trans.upVector());
-
+	
     D3DXVECTOR3 diff = *Trans.lookatVector() - *Trans.cameraPos();
     float norm = D3DXVec3Length(&diff);
     *Trans.cameraPos() = *Trans.lookatVector() - *Trans.dirVector() * norm;
@@ -168,10 +160,6 @@ void objectGenerator::rotateCamera(float dx, float dy)
     D3DXVec3Normalize(Trans.rightVector(), Trans.rightVector());
     D3DXVec3Cross(Trans.upVector(), Trans.rightVector(), Trans.dirVector());
 
-
-//    diff = *Trans.lookatVector() - *Trans.cameraPos();
-//    norm = D3DXVec3Length(&diff);
-//    *Trans.lookatVector() = *Trans.dirVector()  * norm + *Trans.cameraPos();
   }
 }
 
