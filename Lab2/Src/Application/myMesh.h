@@ -35,7 +35,8 @@ public:
 private:
   ID3DXMesh *mesh;
   D3DMATERIAL9 *materials;
-  DWORD matNum;
+  DWORD matNum = 0;
+  HRESULT meshLoadResult;
 };
 
 
