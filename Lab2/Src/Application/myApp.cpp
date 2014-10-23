@@ -117,19 +117,19 @@ bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
                  switch (wParam)
                  {
                    case '1':
-                     light.switchLightByIndex(0);
+                     light.switchLightByIndex(3);
                      break;
                    case '2':
                      light.switchLightByIndex(1);
                      break;
                    case '3':
-                     light.switchLightByIndex(2);
+                     light.switchLightByIndex(4);
                      break;
                    case '4':
-                     light.switchLightByIndex(3);
+                     light.switchLightByIndex(0);
                      break;
                    case '5':
-                     light.switchLightByIndex(4);
+                     light.switchLightByIndex(2);
                      break;
                    case VK_SPACE:
                      freeCamera = !freeCamera;

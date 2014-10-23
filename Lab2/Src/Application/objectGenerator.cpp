@@ -248,7 +248,7 @@ MeshObjectGenerator::MeshObjectGenerator(LPDIRECT3DDEVICE9 pDevice, char *filena
   D3DXMatrixTranslation(&M, 10.0f, 10.0f, 3.0f);
   D3DXMatrixMultiply(Trans.worldMatrix(), Trans.worldMatrix(), &M);
   
-  Trans.setCameraPosition(D3DXVECTOR3(4.0f, 4.0f, 7.0f));
+  Trans.setCameraPosition(D3DXVECTOR3(18.0f, 18.0f, 7.0f));
   Trans.setCameraVectors(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f));
   Trans.setProjection(2 * atan(16.0f / 9.0f), PI_F / 2, 1.0f, 1000.0f);
 

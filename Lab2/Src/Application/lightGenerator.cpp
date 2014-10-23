@@ -40,7 +40,7 @@ LightGenerator::LightGenerator(LPDIRECT3DDEVICE9 device) :pDev(device)
   ZeroMemory(&lights[i], sizeof(lights[i]));
   lights[i].Type = D3DLIGHT_DIRECTIONAL;
   lights[i].Diffuse = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
-  lights[i].Direction = D3DXVECTOR3(10.0f, 10.0f, 5.0f);
+  lights[i].Direction = D3DXVECTOR3(10.0f, 10.0f, -5.0f);
   lightsMode[i] = TRUE;
   
   i = spotIndex;
@@ -84,6 +84,7 @@ void LightGenerator::switchLightByIndex(int index)
 void LightGenerator::spotCircleMove()
 {
   phi += 0.01f;
-  lights[spotIndex].Position = D3DXVECTOR3(center.x + R * cosf(phi),center.y + R * sinf(phi),center.z);
+  lights[spotIndex].Position = D3DXVECTOR3(center.x + R * cosf(phi) ,center.y + R * sinf(phi) ,center.z);
+  lights[spotIndex].Direction = D3DXVECTOR3(center.x + R * cosf(PI_F / 2 + phi), center.y + R * sinf( PI_F / 2 + phi), center.z);
   pDev->SetLight(spotIndex, &lights[spotIndex]);
 }

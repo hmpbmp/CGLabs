@@ -33,6 +33,7 @@ public:
 private:
   D3DLIGHT9 lights[LIGHTNUM];
   int lightsMode[LIGHTNUM];
+  int sign = 1;
   D3DXVECTOR3 spotStart;
   float phi,R;
   D3DXVECTOR3 center;
