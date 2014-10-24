@@ -243,15 +243,18 @@ MeshObjectGenerator::MeshObjectGenerator(LPDIRECT3DDEVICE9 pDevice, char *filena
   name = filename;
   mesh.load(filename,pDev);
   D3DXMATRIX M;
-  //D3DXMatrixIdentity(&M);
-  D3DXMatrixRotationX(Trans.worldMatrix(), -PI_F / 2);
-  D3DXMatrixTranslation(&M, 10.0f, 10.0f, 3.0f);
+  D3DXMatrixRotationX(Trans.worldMatrix(),  PI_F / 2);
+  D3DXMatrixRotationZ(&M, PI_F);
+  D3DXMatrixMultiply(Trans.worldMatrix(), &M, Trans.worldMatrix());
+  start = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
+  D3DXMatrixTranslation(&M,start.x,start.y,start.z);
   D3DXMatrixMultiply(Trans.worldMatrix(), Trans.worldMatrix(), &M);
   
   Trans.setCameraPosition(D3DXVECTOR3(18.0f, 18.0f, 7.0f));
   Trans.setCameraVectors(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f));
   Trans.setProjection(2 * atan(16.0f / 9.0f), PI_F / 2, 1.0f, 1000.0f);
 
+  D3DXMatrixRotationZ(&spin, 0.01f);
 }
 
 MeshObjectGenerator::~MeshObjectGenerator()
@@ -274,15 +277,16 @@ void MeshObjectGenerator::render()
   mesh.render(pDev);
 }
 
-//Movement of spot light
+//Movement of mesh
 void MeshObjectGenerator::circleMove()
 {
-  D3DXMATRIX M1,M2;
   phi += 0.01f;
-  D3DXMatrixTranslation(Trans.worldMatrix(),center.x + R * cosf(phi),center.y + R * sinf(phi),center.z);
-  D3DXMatrixRotationX(&M1, - PI_F / 2);
-  D3DXMatrixRotationY(&M2, -phi);
-  D3DXMatrixMultiply(&M1,&M2,&M1);
-  D3DXMatrixMultiply(Trans.worldMatrix(),&M1,Trans.worldMatrix());
+  D3DXMATRIX M;
+  D3DXMatrixRotationX(Trans.worldMatrix(), -PI_F / 2);
+  D3DXMatrixRotationZ(&M, PI_F + phi);
+  D3DXMatrixMultiply(Trans.worldMatrix(), Trans.worldMatrix(),&M);
+  D3DXVec3TransformCoord(&start,&start,&spin);
+  D3DXMatrixTranslation(&M, start.x, start.y, start.z);
+  D3DXMatrixMultiply(Trans.worldMatrix(), Trans.worldMatrix(), &M);
 }
 

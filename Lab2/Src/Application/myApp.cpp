@@ -57,8 +57,6 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
   for (int i = 0; i < MAX_KEYS; i++)
     m_keysPressed[i] = false;
   light.setLight();
-  generator.initCircleMove(D3DXVECTOR3(10.0f, 10.0f, 3.0f),0.0f,10.0f);
-  light.initSpotCircle(D3DXVECTOR3(10.0f, 10.0f, 3.0f),0.0f,10.0f);
 
 }
 
@@ -120,16 +118,12 @@ bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
                      light.switchLightByIndex(3);
                      break;
                    case '2':
+                     light.switchLightByIndex(0);
                      light.switchLightByIndex(1);
+                     light.switchLightByIndex(2);
                      break;
                    case '3':
                      light.switchLightByIndex(4);
-                     break;
-                   case '4':
-                     light.switchLightByIndex(0);
-                     break;
-                   case '5':
-                     light.switchLightByIndex(2);
                      break;
                    case VK_SPACE:
                      freeCamera = !freeCamera;
@@ -250,7 +244,7 @@ void myApp::renderInternal()
 
   
   //Object rendering
-//  generator.circleMove();
+  generator.circleMove();
   light.spotCircleMove();
   generator.render();
 }

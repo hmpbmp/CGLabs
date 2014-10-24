@@ -100,7 +100,6 @@ public:
 
   //Rendering function
   void render();
-  void initCircleMove(D3DXVECTOR3 c, float angle,float radius) {center = c;phi = angle;R = radius;}
   void  circleMove();
 private:
   //Raw mesh
@@ -110,9 +109,9 @@ private:
   char *name;
 
   //Parameters for spot light movement
-  D3DXVECTOR3 center;
-  float phi;
-  float R;
+  D3DXVECTOR3 start;
+  D3DXMATRIX spin;
+  float phi = 0.0f;
 };
 
 #endif

@@ -27,7 +27,6 @@ public:
   void setLight();
   void setSpotLightPosition(D3DXVECTOR3 pos);
   void switchLightByIndex(int index);
-  void initSpotCircle(D3DXVECTOR3 c,float angle,float radius) {phi = angle; center = c; R = radius;}
   void spotCircleMove();
 
 private:
@@ -35,8 +34,7 @@ private:
   int lightsMode[LIGHTNUM];
   int sign = 1;
   D3DXVECTOR3 spotStart;
-  float phi,R;
-  D3DXVECTOR3 center;
+  D3DXMATRIX spin;
 
   IDirect3DDevice9 *pDev;
   const int spotIndex = LIGHTNUM - 1;
