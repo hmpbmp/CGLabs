@@ -223,6 +223,8 @@ void myApp::update()
   float dr = 0.0f;
 
 
+  //if (m_keysPressed[VK_OEM_PLUS])
+
 
   if (freeCamera)
   {
