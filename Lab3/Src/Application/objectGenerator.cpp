@@ -203,7 +203,8 @@ MeshObjectGenerator::MeshObjectGenerator(LPDIRECT3DDEVICE9 pDevice, char *filena
   D3DXMatrixTranslation(&M,start.x,start.y,start.z);
   D3DXMatrixMultiply(worldMatrix(), worldMatrix(), &M);
 
-  minfilter = mipfilter = magfilter = D3DTEXF_NONE;
+  mipfilter = D3DTEXF_NONE;
+  magfilter = minfilter = D3DTEXF_POINT;
   mipmapbias = 0.0f;
 
   D3DXMatrixRotationZ(&spin, 0.01f);

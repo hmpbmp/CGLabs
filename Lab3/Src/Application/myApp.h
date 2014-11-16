@@ -40,7 +40,7 @@ protected:
 private:
   enum
   {
-    MAX_KEYS = 128
+    MAX_KEYS = 256
   };
 
   unsigned int m_nClearColor;

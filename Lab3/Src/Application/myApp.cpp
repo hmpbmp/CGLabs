@@ -150,22 +150,6 @@ bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
                      *generator.TexMag() = 3 - *generator.TexMag();
                      *air.TexMag() = 3 - *air.TexMag();
                      break;
-                   case VK_OEM_PLUS:
-                     if (m_keysPressed[VK_SHIFT] == true)
-                     {
-                       *generator.TexBias() += 0.2f;
-                       *air.TexBias() += 0.2f;
-                       m_keysPressed[VK_SHIFT] = false;
-                     }
-                     break;
-                   case VK_OEM_MINUS:
-                     if (m_keysPressed[VK_SHIFT] == true)
-                     {
-                       *generator.TexBias() -= 0.2f;
-                       *air.TexBias() -= 0.2f;
-                       m_keysPressed[VK_SHIFT] = false;
-                     }
-                     break;
                    case VK_SPACE:
                      freeCamera = !freeCamera;
                      camera.setCamera(freeCamera);
@@ -222,8 +206,22 @@ void myApp::update()
   float dy = 0.0f;
   float dr = 0.0f;
 
+  if (m_keysPressed[VK_SHIFT])
+  {
+    ;
+  }
 
-  //if (m_keysPressed[VK_OEM_PLUS])
+  if (m_keysPressed[VK_OEM_PLUS] && m_keysPressed[VK_SHIFT])
+  {
+    *generator.TexBias() += 0.2f;
+    *air.TexBias() += 0.2f;
+  }
+
+  if (m_keysPressed[VK_OEM_MINUS] && m_keysPressed[VK_SHIFT])
+  {
+    *generator.TexBias() -= 0.2f;
+    *air.TexBias() -= 0.2f;
+  }
 
 
   if (freeCamera)
