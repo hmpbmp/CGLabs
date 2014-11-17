@@ -60,8 +60,8 @@ GeometricObjectGenerator::GeometricObjectGenerator(LPDIRECT3DDEVICE9 pDevice, in
         tempVertexBuffer[i * (N + 1) + j].diffuse = 0xFFFFFFFF;//colorFromPoint(tempVertexBuffer[i * (N + 1) + j].p);
         tempVertexBuffer[i * (N + 1) + j].specular = 0;
         tempVertexBuffer[i * (N + 1) + j].normal = T.normalAtPoint(i * iScale, j * jScale);
-        tempVertexBuffer[i * (N + 1) + j].tu = (float)i;
-        tempVertexBuffer[i * (N + 1) + j].tv = N - (float)j;
+        tempVertexBuffer[i * (N + 1) + j].tu = (float)i/20;
+        tempVertexBuffer[i * (N + 1) + j].tv = (N - (float)j)/20;
       }
     }
     for (int i = 0; i < M; i++)
@@ -143,13 +143,13 @@ void GeometricObjectGenerator::LoadTexture(char *filename, char **mipmaps, int n
     if (mipmaps != NULL)
     {
       LPDIRECT3DSURFACE9 surf = NULL;
-      for (int i = 0; i < number; i++)
+      for (int i = 0; i < number; ++i)
       {
         (*texture)->GetSurfaceLevel(i, &surf);
-        size_t size = strlen(mipmaps[i]) + 1;
+        size_t size = strlen(mipmaps[number - i - 1]) + 1;
         wchar_t *wFileName = new wchar_t[size];
         size_t convChars = 0;
-        mbstowcs_s(&convChars, wFileName, size, mipmaps[i], _TRUNCATE);
+        mbstowcs_s(&convChars, wFileName, size, mipmaps[number - i - 1], _TRUNCATE);
         D3DXLoadSurfaceFromFile(surf, NULL, NULL, wFileName, NULL, D3DX_DEFAULT, 0, NULL);
         surf->Release();
       }
