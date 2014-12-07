@@ -189,7 +189,7 @@ void GeometricObjectGenerator::render(Camera *cam)
     pDev->SetSamplerState(0, D3DSAMP_MIPFILTER, mipfilter);
     pDev->SetSamplerState(0,D3DSAMP_MIPMAPLODBIAS,*(LPDWORD)(&mipmapbias));
     pDev->SetSamplerState(0,D3DSAMP_ADDRESSU,D3DTADDRESS_WRAP);
-
+    pDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
   }
   pDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertNum, 0, triNum);

@@ -62,8 +62,8 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
   for (int i = 0; i < MAX_KEYS; i++)
     m_keysPressed[i] = false;
 
-  Plane p(D3DXVECTOR3(50.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 50.0f, 0.0f));
-  plane.Geometry(50, 50, &p);
+  Plane p(D3DXVECTOR3(20.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 20.0f, 0.0f));
+  plane.Geometry(1500, 1500, &p);
   //plane.LoadTexture("straw512.jpg", (char**)mipmapStraw, mipmapNumber);
   plane.LoadTexture("floor2.jpg", NULL, NULL);
   Node *curr = head;

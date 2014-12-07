@@ -36,7 +36,7 @@ public:
   virtual bool processInput(unsigned int nMsg, int wParam, long lParam);
 protected:
   virtual void update();
-  virtual wchar_t const *getWindowText() { return L"Third CG lab by Kozyrev."; };
+  virtual wchar_t const *getWindowText() { return L"Forth CG lab by Kozyrev."; };
   virtual void renderInternal();
 private:
   enum
