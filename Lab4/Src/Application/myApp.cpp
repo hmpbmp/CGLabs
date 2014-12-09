@@ -44,8 +44,8 @@ namespace
   }
 
   const int mipmapNumber = 5;
-  const int maxRotationNumber = 150;
-  const float rotationAngle = 0.001f;
+  const int maxRotationNumber = 50;
+  const float rotationAngle = 0.003f;
   char * mipmapStraw[5][16] = { "straw32.jpg", "straw64.jpg", "straw128.jpg", "straw256.jpg", "straw512.jpg" };
 }
 
