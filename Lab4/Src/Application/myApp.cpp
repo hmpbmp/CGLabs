@@ -30,6 +30,7 @@ namespace
   const float s_rKbd2Rotate = 1.16f;
   const float s_rKbd2Zoom = 1.16f;
 
+
   void shiftColor(unsigned &color, float delta, int shift)
   {
     int nComp = (color >> shift) & 0xFF;
@@ -43,7 +44,8 @@ namespace
   }
 
   const int mipmapNumber = 5;
-
+  const int maxRotationNumber = 150;
+  const float rotationAngle = 0.001f;
   char * mipmapStraw[5][16] = { "straw32.jpg", "straw64.jpg", "straw128.jpg", "straw256.jpg", "straw512.jpg" };
 }
 
@@ -63,9 +65,9 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
     m_keysPressed[i] = false;
 
   Plane p(D3DXVECTOR3(20.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 20.0f, 0.0f));
-  plane.Geometry(1500, 1500, &p);
-  //plane.LoadTexture("straw512.jpg", (char**)mipmapStraw, mipmapNumber);
-  plane.LoadTexture("floor2.jpg", NULL, NULL);
+  plane.Geometry(200, 200, &p);
+  plane.LoadTexture("straw512.jpg", (char**)mipmapStraw, mipmapNumber);
+  //plane.LoadTexture("floor2.jpg", NULL, NULL);
   Node *curr = head;
   D3DXMATRIX M,N;
   GeometricObjectGenerator *object;
@@ -73,7 +75,7 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
   object->Geometry(50, 50, new Cylinder(0.1f, 0.5f));
   D3DXMatrixIdentity(&M);
   object->setWorldMatrix(M);
-  object->LoadTexture("zebra.jpg", NULL, 0);
+  object->LoadTexture("zebra.jpg", NULL, NULL);
   head = new Node(NULL);
   head->addChild(new Node(object));
   curr = head->children().front();
@@ -113,8 +115,8 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
 
   
   rotVector = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-  D3DXMatrixRotationAxis(&rotateR, &rotVector, 0.001f);
-  D3DXMatrixRotationAxis(&rotateL, &rotVector, -0.001f);
+  D3DXMatrixRotationAxis(&rotateR, &rotVector, rotationAngle);
+  D3DXMatrixRotationAxis(&rotateL, &rotVector, -rotationAngle);
   rotate = &rotateR;
 }
 
@@ -187,15 +189,12 @@ bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
                      break;
                    case 'M':
                      *plane.TexMip() = *plane.TexMip() > 0 ? (*plane.TexMip() - 1) : 2;
-                     //*air.TexMip() = *air.TexMip() > 0 ? (*air.TexMip() - 1) : 2;
                      break;
                    case 'F':
                      *plane.TexMin() = 3 - *plane.TexMin();
-                     //*air.TexMin() = 3 - *air.TexMin();
                      break;
                    case 'G': 
                      *plane.TexMag() = 3 - *plane.TexMag();
-                     //*air.TexMag() = 3 - *air.TexMag();
                      break;
                    case VK_SPACE:
                      freeCamera = !freeCamera;
@@ -331,7 +330,7 @@ void myApp::renderInternal()
   m_pD3D->getDevice()->SetRenderState(D3DRS_LIGHTING, TRUE);
   delete M;
 
-  if (abs(rotCounter) > 250)
+  if (abs(rotCounter) > maxRotationNumber)
   {
     rotCounter = -rotCounter;
     rotate = (rotate == &rotateR) ? &rotateL : &rotateR;
@@ -343,9 +342,5 @@ void myApp::renderInternal()
   head->render(&camera);
   
   //Object rendering
-  //air.circleMove();
-  //light.spotCircleMove();
-  //air.render(&camera);
-  //generator.render(&camera);
 
 }

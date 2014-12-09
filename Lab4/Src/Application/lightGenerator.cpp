@@ -28,6 +28,7 @@ LightGenerator::LightGenerator(LPDIRECT3DDEVICE9 device) :pDev(device)
     ZeroMemory(&lights[i], sizeof(lights[i]));
     lights[i].Type = D3DLIGHT_POINT;
     lights[i].Diffuse = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+    lights[i].Specular = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
     lights[i].Range = 2.0f;
     lightsMode[i] = TRUE;
   }

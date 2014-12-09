@@ -110,14 +110,14 @@ public:
 
   D3DXVECTOR3 point(float u, float v)
   {
-    float n = 2 * PI_F * u, m = 2 * PI_F * v;
-    return (D3DXVECTOR3 (R * cos(n) * sin(m), R * sin(n) * sin(m), R * cos(m)));
+    float n = 2 * (u - 0.5f) * PI_F, m = (v - 0.5f) * PI_F;
+    return (D3DXVECTOR3 (R * cos(n) * cos(m), R * sin(m), R * sin(n) * cos(m)));
   }
 
   D3DXVECTOR3 normalAtPoint(float u, float v)
   {
-    float n = 2 * PI_F * u, m = 2 * PI_F * v;
-    return (D3DXVECTOR3 (cos(n) * sin(m), sin(n) * sin(m), cos(m)));
+    float n = 2 * (u - 0.5f) * PI_F, m = (v - 0.5f) * PI_F;
+    return (D3DXVECTOR3(cos(n) * cos(m), sin(m), sin(n) * cos(m)));
   }
 private:
   float R;

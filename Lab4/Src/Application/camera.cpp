@@ -87,8 +87,8 @@ void Camera::rotateCamera(float dx, float dy)
 //Zoom camera
 void Camera::zoom(float dr)
 {
-  *cameraPos() = *(cameraPos()) + *(dirVector()) * dr * 5;
-  D3DXVECTOR3 diff = *lookatVector() - *cameraPos();
+  *cameraPos() = *(cameraPos()) - *(cameraPos()) * dr;
+  D3DXVECTOR3 diff =  *lookatVector() - *cameraPos();
   D3DXVec3Normalize(dirVector(), &diff);
 }
 

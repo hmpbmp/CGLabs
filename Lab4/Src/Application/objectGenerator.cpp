@@ -90,8 +90,8 @@ GeometricObjectGenerator::GeometricObjectGenerator(LPDIRECT3DDEVICE9 pDevice)
   pDev = pDevice;
   D3DXMatrixTranslation(worldMatrix(), 0.0f, 0.0f, 0.0f);
 
-  mipfilter = D3DTEXF_NONE;
-  magfilter = minfilter = D3DTEXF_POINT;
+  mipfilter = D3DTEXF_LINEAR;
+  magfilter = minfilter = D3DTEXF_LINEAR;
   mipmapbias = 0.0f;
 
 }
@@ -126,10 +126,10 @@ void GeometricObjectGenerator::Geometry(int triangleM, int triangleN, Figure *F)
       {
         tempVertexBuffer[i * (N + 1) + j].p = F->point(i * iScale, j * jScale);
         tempVertexBuffer[i * (N + 1) + j].diffuse = 0xffffffff;//colorFromPoint(tempVertexBuffer[i * (N + 1) + j].p);
-        tempVertexBuffer[i * (N + 1) + j].specular = 0;
+        tempVertexBuffer[i * (N + 1) + j].specular = 0;//tempVertexBuffer[i * (N + 1) + j].diffuse;
         tempVertexBuffer[i * (N + 1) + j].normal = F->normalAtPoint(i * iScale, j * jScale);
-        tempVertexBuffer[i * (N + 1) + j].tu = (float)i/20;
-        tempVertexBuffer[i * (N + 1) + j].tv = (N - (float)j)/20;
+        tempVertexBuffer[i * (N + 1) + j].tu = (float)i / 20 ;
+        tempVertexBuffer[i * (N + 1) + j].tv = (N - (float)j) / 20;
       }
     }
     for (int i = 0; i < M; i++)
@@ -190,7 +190,6 @@ void GeometricObjectGenerator::render(Camera *cam)
     pDev->SetSamplerState(0,D3DSAMP_MIPMAPLODBIAS,*(LPDWORD)(&mipmapbias));
     pDev->SetSamplerState(0,D3DSAMP_ADDRESSU,D3DTADDRESS_WRAP);
     pDev->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-
   }
   pDev->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, vertNum, 0, triNum);
 }
