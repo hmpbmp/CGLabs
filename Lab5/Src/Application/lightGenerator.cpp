@@ -26,12 +26,13 @@ LightGenerator::LightGenerator(LPDIRECT3DDEVICE9 device) :pDev(device)
   i = 0;
   ZeroMemory(&lights[i], sizeof(lights[i]));
   lights[i].Type = D3DLIGHT_SPOT;
-  lights[i].Diffuse = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);
-  lights[i].Range = 7.0f;
+  //lights[i].Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.0f);
+  lights[i].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+  lights[i].Range = 20.0f;
   lights[i].Direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
   lightsMode[i] = TRUE;
 
-  lights[0].Position = D3DXVECTOR3(2.0f, 2.0f, 7.0f);
+  lights[0].Position = D3DXVECTOR3(0.0f, 0.0f, 17.0f);
   
   
   /*i = dirIndex;

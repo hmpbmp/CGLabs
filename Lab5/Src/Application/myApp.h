@@ -31,7 +31,7 @@ public:
   // Constructor
   myApp(int nW, int nH, void* hInst, int nCmdShow);
   // Destructor
-  virtual ~myApp();
+  virtual ~myApp() {};
   // This function performs input processing. Returns true if input is handled
   virtual bool processInput(unsigned int nMsg, int wParam, long lParam);
 protected:
@@ -62,12 +62,7 @@ private:
   GeometricObjectGenerator torus;
   GeometricObjectGenerator sphere;*/
   Camera camera;
-
-  ID3DXEffect* mFX = 0;
-  ID3DXBuffer* errors = 0;
-  D3DXHANDLE hWorldMatrix,hViewMatrix,hProjMatrix;
-  D3DXHANDLE hCameraPos, hLightPos,hLightColor;
-  D3DXHANDLE hMinnaert,hDiffuse;
+  Effect effect;
   bool lightType = false;
 
 };

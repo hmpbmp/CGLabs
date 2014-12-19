@@ -18,6 +18,7 @@
 
 #include "myApp.h"
 #include "Library/cglApp.h"
+#include "effect.h"
 
 // *******************************************************************
 // defines
@@ -59,6 +60,7 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
 , camera(m_pD3D->getDevice())
 , light(m_pD3D->getDevice())
 , mesh(m_pD3D->getDevice(), "Dwarf.x")
+, effect("shader.fx",m_pD3D->getDevice())
 {
 
   for (int i = 0; i < MAX_KEYS; i++)
@@ -70,38 +72,14 @@ myApp::myApp(int nW, int nH, void* hInst, int nCmdShow)
   D3DXMatrixMultiply(&M1,&M1,&M2);
   mesh.setWorldMatrix(M1);
   light.setLight();
-
-  camera.setCameraPosition(D3DXVECTOR3(1.50f, 1.50f, 2.0f));
+  //mesh.LoadTexture("straw512.jpg", NULL, 0);
+  camera.setCameraPosition(D3DXVECTOR3(1.5f, 1.5f, 2.0f));
   camera.setCameraVectors(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 1.0f));
-  camera.setProjection(2 * atan(16.0f / 9.0f), PI_F / 2, 1.0f, 1000.0f);
+  camera.setProjection(2 * atan(16.0f / 9.0f), PI_F / 3, 0.1f, 1000.0f);
 
-
-  D3DXCreateEffectFromFile(m_pD3D->getDevice(), L"shader.fx", 0, 0, D3DXSHADER_DEBUG, 0, &mFX, &errors);
-  if (errors)
-  {
-    size_t size = strlen((char*)errors->GetBufferPointer()) + 1;
-    wchar_t *wErrName = new wchar_t[size];
-    size_t convChars = 0;
-    mbstowcs_s(&convChars, wErrName, size, (char*)errors->GetBufferPointer(), _TRUNCATE);
-    MessageBox(0, wErrName, 0, 0);
-  }
-
-  hWorldMatrix = mFX->GetParameterByName(0, "World");
-  hViewMatrix  = mFX->GetParameterByName(0, "View");
-  hProjMatrix  = mFX->GetParameterByName(0, "Proj");
-  hCameraPos   = mFX->GetParameterByName(0, "cameraPos");
-  hLightPos    = mFX->GetParameterByName(0, "lightPos[0]");
-  hLightColor  = mFX->GetParameterByName(0, "lightColor[0]");
-
-  hMinnaert  = mFX->GetTechniqueByName("Minnaert");
-  hDiffuse   = mFX->GetTechniqueByName("Diffuse");
+  effect.setLightType(true);
+  mesh.setEffectHadlers(&effect);
   // Set Parameters
-}
-
-
-myApp::~myApp()
-{
-  mFX->Release();
 }
 
 bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
@@ -158,10 +136,10 @@ bool myApp::processInput(unsigned int nMsg, int wParam, long lParam)
                  switch (wParam)
                  {
                    case '1':
-                     lightType = false;
+                     effect.setLightType(true);
                      break;
                    case '2':
-                     lightType = true;
+                     effect.setLightType(false);
                      break;
                    case '3':
                      break;
@@ -303,32 +281,9 @@ void myApp::renderInternal()
 
   
 
-  if (lightType)
-  {
-    mFX->SetTechnique(hMinnaert);
-  }
-  else
-  {
-    mFX->SetTechnique(hDiffuse);
-  }
-  mFX->SetMatrix(hViewMatrix, camera.viewMatrix());
-  mFX->SetMatrix(hProjMatrix, camera.projectionMatrix());
-  mFX->SetFloatArray(hCameraPos, (float*)camera.cameraPos(),3);
-  mFX->SetFloatArray(hLightPos, (float*)&light.lightPosition(),3);
-  mFX->SetFloatArray(hLightColor, (float*)(&light.lightColor()),4);
-  UINT numPasses = 1;
-  mFX->Begin(&numPasses, 0);
-  for (UINT i = 0; i < numPasses; i++)
-  {
-    mFX->BeginPass(i);
-
-    mFX->SetMatrix(hWorldMatrix, mesh.worldMatrix());
-    mFX->CommitChanges();
-    mesh.render(&camera);
-    mFX->EndPass();
-  }
-  
-  mFX->End();
+  //render with effect
+  mesh.renderWithEffect(&camera, &effect, &light);
+  //mesh.render(&camera);
   //Object rendering
 
 }

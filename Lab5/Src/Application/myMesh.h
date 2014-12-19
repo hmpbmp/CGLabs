@@ -30,11 +30,14 @@ public:
   void load(char *filename, IDirect3DDevice9 *device);
   //Rendering
   void render(IDirect3DDevice9 *device);
+  void renderWithEffect(IDirect3DDevice9 *device, ID3DXEffect *eff, D3DXHANDLE hText, D3DXHANDLE hMat, D3DXHANDLE hBump);
   //Release mesh and materials
   void release();
 private:
   ID3DXMesh *mesh;
   D3DMATERIAL9 *materials;
+  LPDIRECT3DTEXTURE9 *textures;
+  LPDIRECT3DTEXTURE9 *bumpmaps;
   DWORD matNum = 0;
   HRESULT meshLoadResult;
 };

@@ -38,6 +38,9 @@
     <ClCompile Include="Src\Application\camera.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Application\effect.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Library\cglApp.h">
@@ -68,6 +71,9 @@
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\hierarchical.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\effect.h">
       <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>

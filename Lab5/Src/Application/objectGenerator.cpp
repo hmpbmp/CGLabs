@@ -19,6 +19,7 @@
 //*************************************************************************
 //ObjectGenerator class
 
+
 //*************************************************************************************
 //TexturedObjectGenerator class
 
@@ -125,11 +126,11 @@ void GeometricObjectGenerator::Geometry(int triangleM, int triangleN, Figure *F)
       for (int j = 0; j < N + 1; j++)
       {
         tempVertexBuffer[i * (N + 1) + j].p = F->point(i * iScale, j * jScale);
-        //tempVertexBuffer[i * (N + 1) + j].diffuse = colorFromPoint(tempVertexBuffer[i * (N + 1) + j].p);
-        //tempVertexBuffer[i * (N + 1) + j].specular = tempVertexBuffer[i * (N + 1) + j].diffuse;
+        tempVertexBuffer[i * (N + 1) + j].diffuse = colorFromPoint(tempVertexBuffer[i * (N + 1) + j].p);
+        tempVertexBuffer[i * (N + 1) + j].specular = tempVertexBuffer[i * (N + 1) + j].diffuse;
         tempVertexBuffer[i * (N + 1) + j].normal = F->normalAtPoint(i * iScale, j * jScale);
-        //tempVertexBuffer[i * (N + 1) + j].tu = (float)i / 20 ;
-        //tempVertexBuffer[i * (N + 1) + j].tv = (N - (float)j) / 20;
+        tempVertexBuffer[i * (N + 1) + j].tu = (float)i / 20 ;
+        tempVertexBuffer[i * (N + 1) + j].tv = (N - (float)j) / 20;
       }
     }
     for (int i = 0; i < M; i++)
@@ -247,6 +248,70 @@ void MeshObjectGenerator::render(Camera *cam)
     pDev->SetSamplerState(0,D3DSAMP_ADDRESSU,D3DTADDRESS_WRAP);
   }
   mesh.render(pDev);
+}
+
+void MeshObjectGenerator::setEffectHadlers(Effect *effect)
+{
+  if (effect->isValid())
+  {
+    ID3DXEffect * mFX = effect->D3DXPointer();
+
+    hWorldMatrix = mFX->GetParameterByName(0, "World");
+    hViewMatrix = mFX->GetParameterByName(0, "View");
+    hProjMatrix = mFX->GetParameterByName(0, "Proj");
+    hCameraPos = mFX->GetParameterByName(0, "cameraPos");
+    hLightPos = mFX->GetParameterByName(0, "lightPos[0]");
+    hLightColor = mFX->GetParameterByName(0, "lightColor[0]");
+    hTexture = mFX->GetParameterByName(0, "matTexture");
+    hBumpMap = mFX->GetParameterByName(0, "bumpTexture");
+    hMaterial = mFX->GetParameterByName(0, "matColor");
+
+    hMinnaert = mFX->GetTechniqueByName("Minnaert");
+    hDiffuse = mFX->GetTechniqueByName("Diffuse");
+    
+  }
+}
+
+void MeshObjectGenerator::renderWithEffect(Camera *camera, Effect *effect, LightGenerator *light)
+{
+  camera->updateCamera(*worldMatrix());
+  
+  if (effect->isValid())
+  {
+    ID3DXEffect * mFX = effect->D3DXPointer();
+    if (effect->type())
+    {
+      mFX->SetTechnique(hMinnaert);
+    }
+    else
+    {
+      mFX->SetTechnique(hDiffuse);
+    }
+    mFX->SetMatrix(hViewMatrix, camera->viewMatrix());
+    mFX->SetMatrix(hProjMatrix, camera->projectionMatrix());
+    mFX->SetFloatArray(hCameraPos, (float*)camera->cameraPos(), 3);
+    mFX->SetFloatArray(hLightPos, (float*)light->lightPosition(), 3);
+    mFX->SetFloatArray(hLightColor, (float*)(light->lightColor()), 4);
+    //mFX->Se
+    UINT numPasses = 1;
+    mFX->Begin(&numPasses, 0);
+    for (UINT i = 0; i < numPasses; i++)
+    {
+      mFX->BeginPass(i);
+
+      mFX->SetMatrix(hWorldMatrix, worldMatrix());
+      mFX->CommitChanges();
+      mesh.renderWithEffect(pDev,mFX,hTexture,hMaterial,hBumpMap);
+      //mesh.render(pDev);
+      mFX->EndPass();
+    }
+
+    mFX->End();
+  }
+  else
+  {
+    render(camera);
+  }
 }
 
 //Movement of mesh

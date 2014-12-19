@@ -17,6 +17,8 @@
 #include "basic.h"
 #include "camera.h"
 #include "myMesh.h"
+#include "effect.h"
+#include "lightGenerator.h"
 // *******************************************************************
 // defines & constants
 
@@ -24,6 +26,7 @@
 // classes 
 
 class Camera;
+class Effect;
 
 class ObjectGenerator
 {
@@ -102,6 +105,8 @@ public:
 
   //Rendering function
   void render(Camera *cam);
+  void setEffectHadlers(Effect *effect);
+  void renderWithEffect(Camera *camera, Effect *effect, LightGenerator *light);
   void  circleMove();
 private:
   //Raw mesh
@@ -113,7 +118,18 @@ private:
   //Parameters for spot light movement
   D3DXVECTOR3 start;
   D3DXMATRIX spin;
+  D3DXHANDLE hWorldMatrix;
+  D3DXHANDLE hViewMatrix;
+  D3DXHANDLE hProjMatrix;
+  D3DXHANDLE hCameraPos;
+  D3DXHANDLE hLightPos;
+  D3DXHANDLE hLightColor;
 
+  D3DXHANDLE hMinnaert;
+  D3DXHANDLE hDiffuse;
+  D3DXHANDLE hTexture;
+  D3DXHANDLE hMaterial;
+  D3DXHANDLE hBumpMap;
   float phi = 0.0f;
 };
 

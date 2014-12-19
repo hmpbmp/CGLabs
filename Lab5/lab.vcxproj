@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Application\effect.cpp" />
     <ClCompile Include="Src\Application\lightGenerator.cpp" />
     <ClCompile Include="Src\Application\myMesh.cpp" />
     <ClCompile Include="Src\Application\camera.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Application\basic.h" />
+    <ClInclude Include="Src\Application\effect.h" />
     <ClInclude Include="Src\Application\hierarchical.h" />
     <ClInclude Include="Src\Application\lightGenerator.h" />
     <ClInclude Include="Src\Application\myMesh.h" />
